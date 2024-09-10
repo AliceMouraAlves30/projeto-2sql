@@ -42,4 +42,19 @@ INSERT INTO Cursos(nome,descriçao) VALUES
 
 
 INSERT INTO Notas(nota,aluno,curso) VALUES
-('')
+('1,1,8.0'),
+('2,2,9.0'),
+('3,3,10.0');
+
+SELECT 
+    Alunos.Alice AS	Aluno,
+    Cursos.Linguas Estrangeiras AS Curso,
+    Notas.8.0 AS Notas,
+    Alunos.Betina AS	Aluno,
+    Cursos.Ciencia de dados AS Curso,
+    Notas.9.0 AS Notas,
+    Alunos.Felipe AS	Aluno,
+    Cursos.Administração AS Curso,
+    Notas.10.0 AS Notas;
+    
+
