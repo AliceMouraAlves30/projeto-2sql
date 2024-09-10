@@ -1,0 +1,45 @@
+drop database Escola;
+create database Escola;
+use Escola;
+
+create table Alunos(
+id_aluno INT AUTO_INCREMENT PRIMARY KEY,
+nome  VARCHAR(100) NOT NULL,
+data_nascimento VARCHAR(100) NOT NULL,
+endereço  VARCHAR(100)
+);
+
+
+
+create table Cursos(
+id_curso INT AUTO_INCREMENT PRIMARY KEY,
+id_aluno INT,
+nome_curso VARCHAR(100) NOT NULL,
+descricao VARCHAR(200),
+ FOREIGN KEY (id_aluno) REFERENCES Alunos(id_aluno)
+);
+
+
+create table Notas(
+id_nota INT AUTO_INCREMENT PRIMARY KEY,
+id_aluno INT,
+id_curso INT,
+nota VARCHAR(100) NOT NULL,
+ FOREIGN KEY (id_curso) REFERENCES Cursos(id_curso)
+);
+
+
+
+INSERT INTO Alunos(nome,data de nascimento,endereço) VALUES
+('Alice Moura,30/11/2006,Bairro Sambaqui'),
+('Betina Santos,22/08/2007,Bairro Jurerê Internacional'),
+('Felipe Neto,25/04/1995;bairro Santo Antonio');
+
+INSERT INTO Cursos(nome,descriçao) VALUES
+('Linguas estrangeiras,ensina ingles e esopanhol'),
+('Ciencia de dados,analisa dados com meios de programação'),
+('Administração,ensina gerenciar recursos dentro de organizações');
+
+
+INSERT INTO Notas(nota,aluno,curso) VALUES
+('')
