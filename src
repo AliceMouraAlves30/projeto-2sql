@@ -6,7 +6,7 @@ create table Alunos(
 id_aluno INT AUTO_INCREMENT PRIMARY KEY,
 nome  VARCHAR(100) NOT NULL,
 data_nascimento VARCHAR(100) NOT NULL,
-endereço  VARCHAR(100)
+endereco  VARCHAR(100)
 );
 
 
@@ -28,33 +28,64 @@ nota VARCHAR(100) NOT NULL,
  FOREIGN KEY (id_curso) REFERENCES Cursos(id_curso)
 );
 
+INSERT INTO Alunos(nome, data_nascimento, endereco) VALUES
+('Alice Moura','2006-11-30','Rua I,1438'),
+('Betina Santos','2007-08-22','Rua A,1438'),
+('Felipe Neto','2008-12-24','Rua B,1438');
 
 
-INSERT INTO Alunos(nome,data de nascimento,endereço) VALUES
-('Alice Moura,30/11/2006,Bairro Sambaqui'),
-('Betina Santos,22/08/2007,Bairro Jurerê Internacional'),
-('Felipe Neto,25/04/1995;bairro Santo Antonio');
-
-INSERT INTO Cursos(nome,descriçao) VALUES
-('Linguas estrangeiras,ensina ingles e esopanhol'),
-('Ciencia de dados,analisa dados com meios de programação'),
-('Administração,ensina gerenciar recursos dentro de organizações');
 
 
-INSERT INTO Notas(nota,aluno,curso) VALUES
-('1,1,8.0'),
-('2,2,9.0'),
-('3,3,10.0');
+INSERT INTO Cursos(nome_curso,descricao) VALUES
+('Linguas estrangeiras','ensina ingles e esopanhol'),
+('Ciencia de dados','analisa dados com meios de programação'),
+('Administração','ensina gerenciar recursos dentro de organizações');
 
-SELECT 
-    Alunos.Alice AS	Aluno,
-    Cursos.Linguas Estrangeiras AS Curso,
-    Notas.8.0 AS Notas,
-    Alunos.Betina AS	Aluno,
-    Cursos.Ciencia de dados AS Curso,
-    Notas.9.0 AS Notas,
-    Alunos.Felipe AS	Aluno,
-    Cursos.Administração AS Curso,
-    Notas.10.0 AS Notas;
+-- Supondo que id_curso está correto e que a tabela foi criada corretamente
+
+INSERT INTO Notas (id_aluno, id_curso, nota) VALUES
+(1, 1, 8.0), 
+(2, 2, 9.0), 
+(3, 3, 10.0);
+
+SELECT
+    Alunos.nome AS Aluno,
+	Cursos.nome_curso AS Curso,
+	Notas.nota AS Nota
+FROM Notas
+JOIN Alunos ON Notas.id_aluno = Alunos.id_aluno
+JOIN Cursos ON Notas.id_curso = Cursos.id_curso;
+
+SELECT
+    Cursos.nome_curso AS Curso,
+    AVG(Notas.nota) AS MediaNota
+FROM Notas
+JOIN Cursos ON Notas.id_curso = Cursos.id_curso
+GROUP BY Cursos.nome_curso;
+
+WITH MaiorNotaPorCurso AS (
+    SELECT id_curso, MAX(nota) AS MaiorNota
+    FROM Notas
+    GROUP BY id_curso
     
+SELECT
+     Cursos.nome_curso AS Curso,
+     Alunos.nome AS Aluno,
+     MaiorNotaPorCurso.MaiorNota
+FROM MaiorNotaPorCurso
+JOIN Cursos ON  MaiorNotaPorCurso.id_curso = Curso
+JOIN Notas ON  MaiorNotaPorCurso.id_curso = Nota
+JOIN Alunos ON Notas.id_aluno = Alunos.id_aluno,
+
+
+    
+
+      
+
+
+
+        
+
+
+
 
