@@ -1,31 +1,28 @@
-drop database Escola;
-create database Escola;
-use Escola;
+drop DATABASE Escola;
 
-create table Alunos(
-id_aluno INT AUTO_INCREMENT PRIMARY KEY,
-nome  VARCHAR(100) NOT NULL,
-data_nascimento VARCHAR(100) NOT NULL,
-endereco  VARCHAR(100)
+CREATE DATABASE Escola;
+USE Escola;
+
+CREATE TABLE Alunos(
+    id_aluno INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    endereco VARCHAR(100)
 );
 
-
-
-create table Cursos(
-id_curso INT AUTO_INCREMENT PRIMARY KEY,
-id_aluno INT,
-nome_curso VARCHAR(100) NOT NULL,
-descricao VARCHAR(200),
- FOREIGN KEY (id_aluno) REFERENCES Alunos(id_aluno)
+CREATE TABLE Cursos(
+    id_curso INT AUTO_INCREMENT PRIMARY KEY,
+    nome_curso VARCHAR(100) NOT NULL,
+    descricao VARCHAR(200)
 );
 
-
-create table Notas(
-id_nota INT AUTO_INCREMENT PRIMARY KEY,
-id_aluno INT,
-id_curso INT,
-nota VARCHAR(100) NOT NULL,
- FOREIGN KEY (id_curso) REFERENCES Cursos(id_curso)
+CREATE TABLE Notas(
+    id_nota INT AUTO_INCREMENT PRIMARY KEY,
+    id_aluno INT,
+    id_curso INT,
+    nota FLOAT NOT NULL,
+    FOREIGN KEY (id_aluno) REFERENCES Alunos(id_aluno),
+    FOREIGN KEY (id_curso) REFERENCES Cursos(id_curso)
 );
 
 INSERT INTO Alunos(nome, data_nascimento, endereco) VALUES
@@ -33,10 +30,77 @@ INSERT INTO Alunos(nome, data_nascimento, endereco) VALUES
 ('Betina Santos','2007-08-22','Rua A,1438'),
 ('Felipe Neto','2008-12-24','Rua B,1438');
 
+INSERT INTO Cursos(nome_curso, descricao) VALUES
+('Linguas estrangeiras','ensina ingles e espanol'),
+('Ciencia de dados','analisa dados com meios de programação'),
+('Administração','ensina gerenciar recursos dentro de organizações');
+
+-- Adicione os ids corretos para os cursos após a criação
+INSERT INTO Notas (id_aluno, id_curso, nota) VALUES
+(1, 1, 8.0),
+(2, 2, 9.0),
+(3, 3, 10.0);
+
+-- Consulta de Notas
+SELECT
+    Alunos.nome AS Aluno,
+    Cursos.nome_curso AS Curso,
+    Notas.nota AS Nota
+FROM Notas
+JOIN Alunos ON Notas.id_aluno = Alunos.id_aluno
+JOIN Cursos ON Notas.id_curso = Cursos.id_curso;
+
+-- Consulta de Média por Curso
+SELECT
+    Cursos.nome_curso AS Curso,
+    AVG(Notas.nota) AS MediaNota
+FROM Notas
+JOIN Cursos ON Notas.id_curso = Cursos.id_curso
+GROUP BY Cursos.nome_curso;
+
+WITH MaiorNotaPorCurso AS (
+    SELECT id_curso, MAX(nota) AS MaiorNota
+    FROM Notas
+    GROUP BY id_curso
+)
+    
+-- Selecionando os detalhes dos cursos, alunos e maiores notas
+SELECT
+    Cursos.nome_curso AS Curso,
+    Alunos.nome AS Aluno,
+    MaiorNotaPorCurso.MaiorNota
+FROM MaiorNotaPorCurso
+JOIN Cursos ON MaiorNotaPorCurso.id_curso = Cursos.id_curso
+JOIN Notas ON MaiorNotaPorCurso.id_curso = Notas.id_curso AND MaiorNotaPorCurso.MaiorNota = Notas.nota
+JOIN Alunos ON Notas.id_aluno = Alunos.id_aluno;
+
+UPDATE Notas
+SET nota = 8.5
+WHERE id_aluno = 1 AND id_curso = 1;
+
+UPDATE Alunos
+SET endereco = 'Rua I,1438'
+WHERE id_aluno = 1;
+
+DELETE FROM Notas
+WHERE id_aluno = 1;
+
+DELETE FROM Alunos
+WHERE id_aluno = 1;
+
+DELETE FROM Notas
+WHERE id_curso = 1;
+
+DELETE FROM Cursos
+WHERE id_curso = 1;
 
 
 
-INSERT INTO Cursos(nome_curso,descricao) VALUES
+
+
+
+
+
 ('Linguas estrangeiras','ensina ingles e esopanhol'),
 ('Ciencia de dados','analisa dados com meios de programação'),
 ('Administração','ensina gerenciar recursos dentro de organizações');
